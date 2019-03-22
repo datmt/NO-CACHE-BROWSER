@@ -96,7 +96,18 @@ public class Controller {
     public void killAllBrowsers()
     {
         for (WebDriver webDriver : allDrivers)
-            webDriver.close();
+            if (webDriver!=null)
+            {
+                try
+                {
+                    webDriver.close();
+                    NFCAlert.info("All instances killed!");
+                } catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+
+            }
     }
 
     private void setFirefoxPathTF()

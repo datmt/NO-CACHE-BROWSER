@@ -41,6 +41,7 @@ public class NFCBrowser {
 
             FirefoxOptions options = new FirefoxOptions();
             options.addArguments("--start-maximized");
+            options.addArguments("--disable-application-cache");
             System.setProperty("webdriver.gecko.driver", us.getFirefoxDriverPath());
             webDriver = new FirefoxDriver(options);
 
@@ -60,6 +61,7 @@ public class NFCBrowser {
             }
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized");
+            options.addArguments("--disable-application-cache");
             System.setProperty("webdriver.chrome.driver", us.getChromeDriverPath());
             webDriver = new ChromeDriver(options);
         } else
