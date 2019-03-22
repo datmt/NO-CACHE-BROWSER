@@ -1,26 +1,32 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import org.openqa.selenium.WebDriver;
 
+
 import java.awt.Desktop;
-
-
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Observable;
 
 public class Controller {
 
     @FXML
     BorderPane rootPane;
 
+    @FXML
+    TextArea favoriteURlsTA;
 
+    @FXML
+    ListView favoriteURLLV;
     @FXML
     TextField chromePathTF, firefoxPathTF, startURLTF;
 
@@ -39,6 +45,10 @@ public class Controller {
 
         setChromePathTF();
         setFirefoxPathTF();
+        populateFavoriteURLs();
+
+        populateFavoriteURLsLV();
+        handleClickOnFavoriteURLsClick();
     }
 
     public void startBrowsing()
@@ -58,7 +68,6 @@ public class Controller {
             NFCBrowser nfcBrowser = new NFCBrowser(startURL, "firefox");
             allDrivers.add(nfcBrowser.getWebDriver());
             nfcBrowser.visit();
-
         }
     }
 
@@ -129,6 +138,42 @@ public class Controller {
             new UserSettings().setFirefoxDriverPath(firefoxDriver.getPath());
             setFirefoxPathTF();
         }
+    }
+
+    public void saveFavoriteURLs()
+    {
+        new UserSettings().setFavoriteUrls(favoriteURlsTA.getText());
+        populateFavoriteURLsLV();
+    }
+
+    private void populateFavoriteURLsLV()
+    {
+        favoriteURLLV.getItems().clear();
+        ObservableList<String> urls = FXCollections.observableArrayList();
+        urls.addAll(new UserSettings().getFavoriteUrls().trim().split("\n"));
+        favoriteURLLV.setItems(urls);
+    }
+
+    private void populateFavoriteURLs()
+    {
+        favoriteURlsTA.setText(new UserSettings().getFavoriteUrls());
+    }
+
+    private void handleClickOnFavoriteURLsClick()
+    {
+        favoriteURLLV.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String url = favoriteURLLV.getSelectionModel().getSelectedItem().toString();
+                System.out.println("on clicked on item");
+                startURLTF.setText(url);
+                if (event.getClickCount() > 1)
+                {
+                    startBrowsing();
+                }
+
+            }
+        });
     }
 
 }
