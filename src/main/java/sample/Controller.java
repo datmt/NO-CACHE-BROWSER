@@ -5,17 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import org.openqa.selenium.WebDriver;
 
 
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Observable;
 
 public class Controller {
 
@@ -31,10 +32,14 @@ public class Controller {
     TextField chromePathTF, firefoxPathTF, startURLTF;
 
     @FXML
+    CheckBox startNewBrowserCB;
+
+    @FXML
     RadioButton chromeRadio, firefoxRadio;
 
 
-    ArrayList<WebDriver> allDrivers = new ArrayList<WebDriver>();
+    private ArrayList<WebDriver> allFireFoxDrivers = new ArrayList<WebDriver>();
+    private ArrayList<WebDriver> allChromeDrivers = new ArrayList<WebDriver>();
     @FXML
     public void initialize()
     {
@@ -42,6 +47,7 @@ public class Controller {
         firefoxRadio.setToggleGroup(radioToggleGroup);
         chromeRadio.setToggleGroup(radioToggleGroup);
         firefoxRadio.setSelected(true);
+        startNewBrowserCB.setSelected(true);
 
         setChromePathTF();
         setFirefoxPathTF();
@@ -58,15 +64,20 @@ public class Controller {
         if (startURL.trim().equals(""))
             startURL = "https://www.binarycarpenter.com";
 
+
+
+
         if (chromeRadio.isSelected())
         {
             NFCBrowser nfcBrowser = new NFCBrowser(startURL, "chrome");
-            allDrivers.add(nfcBrowser.getWebDriver());
+            allChromeDrivers.add(nfcBrowser.getWebDriver());
             nfcBrowser.visit();
+
+
         } else
         {
             NFCBrowser nfcBrowser = new NFCBrowser(startURL, "firefox");
-            allDrivers.add(nfcBrowser.getWebDriver());
+            allFireFoxDrivers.add(nfcBrowser.getWebDriver());
             nfcBrowser.visit();
         }
     }
@@ -104,19 +115,33 @@ public class Controller {
 
     public void killAllBrowsers()
     {
-        for (WebDriver webDriver : allDrivers)
+        for (WebDriver webDriver : allFireFoxDrivers)
             if (webDriver!=null)
             {
                 try
                 {
                     webDriver.close();
-                    NFCAlert.info("All instances killed!");
                 } catch (Exception ex)
                 {
                     ex.printStackTrace();
                 }
 
             }
+
+        for (WebDriver webDriver : allChromeDrivers)
+            if (webDriver!=null)
+            {
+                try
+                {
+                    webDriver.close();
+                } catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+
+            }
+
+        NFCAlert.info("All instances killed!");
     }
 
     private void setFirefoxPathTF()

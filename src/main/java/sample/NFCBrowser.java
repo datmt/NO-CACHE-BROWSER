@@ -64,10 +64,9 @@ public class NFCBrowser {
             options.addArguments("--disable-application-cache");
             System.setProperty("webdriver.chrome.driver", us.getChromeDriverPath());
             webDriver = new ChromeDriver(options);
-        } else
-        {
-            //notify it's null
+
         }
+
 
     }
 
@@ -79,6 +78,7 @@ public class NFCBrowser {
             NFCAlert.error("Web driver is null, please set it first in settings");
             return;
         }
+        webDriver.manage().deleteAllCookies();
 
         webDriver.get(startURL);
 
