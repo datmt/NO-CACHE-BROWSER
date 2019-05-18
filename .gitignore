@@ -1,3 +1,6 @@
 .idea/
 No Fucking Cache Browser.iml
 target/
+out/
+MANIFEST.MF
+.DS_Store
