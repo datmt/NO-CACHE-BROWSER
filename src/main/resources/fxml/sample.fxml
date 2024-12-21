@@ -93,6 +93,9 @@
                   </VBox>
                </content>
             </Tab>
+            <Tab text="Logs" closable="false">
+                <fx:include source="logTab.fxml" />
+            </Tab>
          </tabs>
       </TabPane>
    </center>
