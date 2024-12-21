@@ -16,8 +16,13 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
     public static void main(String[] args) {
-        launch(args);
+        try {
+            System.setProperty("javafx.runtime.path", System.getProperty("user.dir") + "/target/classes");
+            launch(args);
+        } catch (Exception e) {
+            System.err.println("Failed to start application:");
+            e.printStackTrace();
+        }
     }
 }

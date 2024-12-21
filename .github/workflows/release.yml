@@ -1,0 +1,151 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn clean package
+      - name: Create Windows Installer
+        run: |
+          jpackage --input target/ `
+            --main-jar no-cache-browser-1.0-SNAPSHOT.jar `
+            --main-class sample.Main `
+            --type msi `
+            --dest installers `
+            --name "No Cache Browser" `
+            --app-version "1.0.0" `
+            --vendor "Your Company" `
+            --win-dir-chooser `
+            --win-menu `
+            --win-shortcut
+      - name: Upload Windows Installer
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-installer
+          path: installers/*.msi
+
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn clean package
+      - name: Create macOS Installer
+        run: |
+          jpackage --input target/ \
+            --main-jar no-cache-browser-1.0-SNAPSHOT.jar \
+            --main-class sample.Main \
+            --type dmg \
+            --dest installers \
+            --name "No Cache Browser" \
+            --app-version "1.0.0" \
+            --vendor "Your Company" \
+            --mac-package-name "NoCacheBrowser"
+      - name: Upload macOS Installer
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-installer
+          path: installers/*.dmg
+
+  build-mac-arm:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn clean package
+      - name: Create macOS ARM Installer
+        run: |
+          jpackage --input target/ \
+            --main-jar no-cache-browser-1.0-SNAPSHOT.jar \
+            --main-class sample.Main \
+            --type dmg \
+            --dest installers \
+            --name "No Cache Browser" \
+            --app-version "1.0.0" \
+            --vendor "Your Company" \
+            --mac-package-name "NoCacheBrowser"
+      - name: Upload macOS ARM Installer
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-arm-installer
+          path: installers/*.dmg
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Install Required Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fakeroot
+      - name: Build with Maven
+        run: mvn clean package
+      - name: Create Linux Installer
+        run: |
+          jpackage --input target/ \
+            --main-jar no-cache-browser-1.0-SNAPSHOT.jar \
+            --main-class sample.Main \
+            --type deb \
+            --dest installers \
+            --name "no-cache-browser" \
+            --app-version "1.0.0" \
+            --vendor "Your Company" \
+            --linux-shortcut
+      - name: Upload Linux Installer
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-installer
+          path: installers/*.deb
+
+  create-release:
+    needs: [build-windows, build-mac, build-mac-arm, build-linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/windows-installer/*.msi
+            artifacts/macos-installer/*.dmg
+            artifacts/macos-arm-installer/*.dmg
+            artifacts/linux-installer/*.deb
+          draft: false
+          prerelease: false
+          generate_release_notes: true
