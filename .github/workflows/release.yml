@@ -22,7 +22,7 @@ jobs:
         run: |
           jpackage --input target/ `
             --main-jar no-cache-browser-1.0-SNAPSHOT.jar `
-            --main-class sample.Main `
+            --main-class com.datmt.nocache.AppStarter `
             --type msi `
             --dest installers `
             --name "No Cache Browser" `
@@ -53,7 +53,7 @@ jobs:
         run: |
           jpackage --input target/ \
             --main-jar no-cache-browser-1.0-SNAPSHOT.jar \
-            --main-class sample.Main \
+            --main-class com.datmt.nocache.AppStarter \
             --type dmg \
             --dest installers \
             --name "No Cache Browser" \
@@ -82,7 +82,7 @@ jobs:
         run: |
           jpackage --input target/ \
             --main-jar no-cache-browser-1.0-SNAPSHOT.jar \
-            --main-class sample.Main \
+            --main-class com.datmt.nocache.AppStarter \
             --type dmg \
             --dest installers \
             --name "No Cache Browser" \
@@ -115,7 +115,7 @@ jobs:
         run: |
           jpackage --input target/ \
             --main-jar no-cache-browser-1.0-SNAPSHOT.jar \
-            --main-class sample.Main \
+            --main-class com.datmt.nocache.AppStarter \
             --type deb \
             --dest installers \
             --name "no-cache-browser" \

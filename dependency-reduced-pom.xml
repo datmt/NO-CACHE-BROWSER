@@ -49,7 +49,7 @@
   </build>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
-    <main.class>sample.Main</main.class>
+    <main.class>com.datmt.nocache.AppStarter</main.class>
     <maven.compiler.source>17</maven.compiler.source>
     <app.version>1.0.0</app.version>
     <jpackage.launcher.name>no-cache-browser</jpackage.launcher.name>

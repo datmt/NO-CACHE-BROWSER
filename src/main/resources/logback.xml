@@ -8,7 +8,7 @@
     </appender>
 
     <!-- Custom appender that will be used to capture logs for the UI -->
-    <appender name="UI_APPENDER" class="sample.LogTabAppender">
+    <appender name="UI_APPENDER" class="com.datmt.nocache.LogTabAppender">
     </appender>
 
     <root level="INFO">
