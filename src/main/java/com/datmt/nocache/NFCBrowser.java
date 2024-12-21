@@ -1,4 +1,4 @@
-package sample;
+package com.datmt.nocache;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

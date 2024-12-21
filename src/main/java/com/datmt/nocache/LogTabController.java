@@ -1,4 +1,4 @@
-package sample;
+package com.datmt.nocache;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;

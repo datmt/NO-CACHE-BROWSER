@@ -10,9 +10,20 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
-          <source>17</source>
-          <target>17</target>
-          <release>17</release>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+          <release>${maven.compiler.release}</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
+        <configuration>
+          <mainClass>${main.class}</mainClass>
+          <jlinkImageName>no-cache-browser</jlinkImageName>
+          <launcher>launcher</launcher>
+          <jlinkZipName>no-cache-browser</jlinkZipName>
         </configuration>
       </plugin>
       <plugin>
@@ -27,26 +38,9 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>sample.Main</mainClass>
+                  <mainClass>${main.class}</mainClass>
                 </transformer>
               </transformers>
-              <filters>
-                <filter>
-                  <artifact>*:*</artifact>
-                  <excludes>
-                    <exclude>META-INF/*.SF</exclude>
-                    <exclude>META-INF/*.DSA</exclude>
-                    <exclude>META-INF/*.RSA</exclude>
-                  </excludes>
-                </filter>
-              </filters>
-              <artifactSet>
-                <includes>
-                  <include>org.openjfx:*</include>
-                  <include>org.seleniumhq.selenium:*</include>
-                  <include>org.controlsfx:*</include>
-                </includes>
-              </artifactSet>
             </configuration>
           </execution>
         </executions>
@@ -54,7 +48,14 @@
     </plugins>
   </build>
   <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <main.class>sample.Main</main.class>
+    <maven.compiler.source>17</maven.compiler.source>
+    <app.version>1.0.0</app.version>
+    <jpackage.launcher.name>no-cache-browser</jpackage.launcher.name>
+    <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>17.0.9</javafx.version>
+    <app.name>No Cache Browser</app.name>
   </properties>
 </project>

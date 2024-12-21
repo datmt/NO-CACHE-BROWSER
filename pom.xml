@@ -14,7 +14,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.release>17</maven.compiler.release>
-        <main.class>sample.Main</main.class>
+        <main.class>com.datmt.nocache.AppStarter</main.class>
         <app.name>No Cache Browser</app.name>
         <app.version>1.0.0</app.version>
         <jpackage.launcher.name>no-cache-browser</jpackage.launcher.name>

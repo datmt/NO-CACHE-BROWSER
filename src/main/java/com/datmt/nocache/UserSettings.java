@@ -1,4 +1,4 @@
-package sample;
+package com.datmt.nocache;
 
 import java.util.prefs.Preferences;
 

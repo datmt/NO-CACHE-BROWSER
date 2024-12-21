@@ -1,5 +1,4 @@
-package sample;
-
+package com.datmt.nocache;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;

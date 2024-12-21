@@ -1,4 +1,4 @@
-package sample;
+package com.datmt.nocache;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +18,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         try {
-            System.setProperty("javafx.runtime.path", System.getProperty("user.dir") + "/target/classes");
             launch(args);
         } catch (Exception e) {
-            System.err.println("Failed to start application:");
-            e.printStackTrace();
         }
     }
 }
